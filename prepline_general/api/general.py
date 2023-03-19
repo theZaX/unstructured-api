@@ -52,7 +52,7 @@ def pipeline_api(file, filename="", response_type="application/json"):
         _filename = os.path.join(tmpdir, filename.split("/")[-1])
         with open(_filename, "wb") as f:
             f.write(file.read())
-        elements = partition(filename=_filename)
+        elements = partition(filename=_filename, strategy="fast")
 
     # Due to the above, elements have an ugly temp filename in their metadata
     # For now, replace this with the basename
