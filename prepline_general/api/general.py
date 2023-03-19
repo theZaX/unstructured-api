@@ -18,6 +18,13 @@ from typing import Optional, Mapping, Iterator, Tuple
 import secrets
 from unstructured.partition.auto import partition
 from unstructured.staging.base import convert_to_isd
+from unstructured.partition.docx import partition_docx
+from unstructured.partition.doc import partition_doc
+from unstructured.partition.pptx import partition_pptx
+from unstructured.partition.ppt import partition_ppt
+from unstructured.partition.pdf import partition_pdf
+
+
 import tempfile
 
 
@@ -52,7 +59,22 @@ def pipeline_api(file, filename="", response_type="application/json"):
         _filename = os.path.join(tmpdir, filename.split("/")[-1])
         with open(_filename, "wb") as f:
             f.write(file.read())
-        elements = partition(filename=_filename, strategy="fast")
+
+        # decleare elements in this scope
+        elements = None
+
+        if filename.endswith(".pdf"):
+            elements = partition_pdf(filename=_filename, strategy="fast")
+        elif filename.endswith(".pptx"):
+            elements = partition_pptx(filename=_filename, strategy="fast")
+        elif filename.endswith(".ppt"):
+            elements = partition_ppt(filename=_filename, strategy="fast")
+        elif filename.endswith(".docx"):
+            elements = partition_docx(filename=_filename, strategy="fast")
+        elif filename.endswith(".doc"):
+            elements = partition_doc(filename=_filename, strategy="fast")
+        else:
+            elements = partition(filename=_filename)
 
     # Due to the above, elements have an ugly temp filename in their metadata
     # For now, replace this with the basename
