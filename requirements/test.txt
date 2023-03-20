@@ -797,11 +797,11 @@ typish==1.9.3
     # via
     #   -r requirements/base.txt
     #   jsons
-unstructured[local-inference]==0.5.0
+unstructured[local-inference]>=0.5.0
     # via -r requirements/base.txt
-unstructured-api-tools==0.4.9
+unstructured-api-tools>=0.4.9
     # via -r requirements/base.txt
-unstructured-inference==0.2.7
+unstructured-inference>=0.2.7
     # via
     #   -r requirements/base.txt
     #   unstructured

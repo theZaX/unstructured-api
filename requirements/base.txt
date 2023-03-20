@@ -360,11 +360,11 @@ typing-extensions==4.5.0
     #   torchvision
 typish==1.9.3
     # via jsons
-unstructured[local-inference]==0.5.0
+unstructured[local-inference]>=0.5.0
     # via -r requirements/base.in
-unstructured-api-tools==0.4.9
+unstructured-api-tools>=0.4.9
     # via -r requirements/base.in
-unstructured-inference==0.2.7
+unstructured-inference>=0.2.7
     # via unstructured
 urllib3==1.26.14
     # via requests
