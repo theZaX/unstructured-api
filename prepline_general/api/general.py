@@ -22,7 +22,13 @@ from unstructured.staging.base import convert_to_isd
 import tempfile
 
 
+limiter = Limiter(key_func=get_remote_address)
 app = FastAPI()
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+router = APIRouter()
+
+RATE_LIMIT = os.environ.get("PIPELINE_API_RATE_LIMIT", "50/second")
 
 
 def is_expected_response_type(media_type, response_type):
@@ -118,6 +124,7 @@ class MultipartMixedResponse(StreamingResponse):
 
 
 @router.post("/general/v0.0.4/general")
+@limiter.limit(RATE_LIMIT)
 async def pipeline_1(
     request: Request,
     files: Union[List[UploadFile], None] = File(default=None),
